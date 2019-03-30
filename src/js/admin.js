@@ -10,7 +10,7 @@ const admin = {
         <textarea class="inputForm bigDescription" name="" id="bigDescription" cols="50" rows="30"
           placeholder="Enter blog here"></textarea>
           <input type="file" id="upload">
-        <button class="inputForm" id="saveBlog">Save</button>
+        <button class="inputForm" id="saveBlog">Post Blog</button>
       </div>`;
     CKEDITOR.replace('bigDescription');
   }

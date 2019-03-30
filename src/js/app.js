@@ -16,47 +16,51 @@ const render = () => {
 
 }
 const saveBlog = () => {
-    document.querySelector('.overlay').style.display = 'block';
     let titleInput = document.getElementById('titleInput').value;
     let descriptionInput = document.getElementById('descriptionInput').value;
     let bigDescription = CKEDITOR.instances.bigDescription.getData();
     let selectedFile = document.getElementById('upload').files[0];
     let imageUrl;
     let nextID;
-    config.blogRef.get().then(function (snapshot) {
-        let newID = snapshot.size;
-        nextID = ++newID;
-    }).then(function () {
-        let uploadTask = config.storageRef.child('/post-images/' + nextID).put(selectedFile);
-        uploadTask.on('state_changed', function (snapshot) {
-            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
-            switch (snapshot.state) {
-                case firebase.storage.TaskState.PAUSED:
-                    console.log('Upload is paused');
-                    break;
-                case firebase.storage.TaskState.RUNNING:
-                    console.log('Upload is running');
-                    break;
-            }
-        }, function (error) {
-        }, function () {
-            uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                imageUrl = downloadURL;
-                config.blogRef.doc(nextID.toString()).set({
-                    detail: bigDescription,
-                    id: nextID,
-                    shortDescription: descriptionInput,
-                    title: titleInput,
-                    imageUrl: imageUrl
-                }).then(function () {
-                    document.querySelector('.overlay img').classList.remove('animate');
-                    document.querySelector('.overlay img').setAttribute('src', 'images/success.png');
-                    setTimeout(cleanup, 1000);
-                })
+    if (titleInput && descriptionInput && bigDescription && selectedFile) {
+        document.querySelector('.overlay').style.display = 'block';
+        config.blogRef.get().then(function (snapshot) {
+            let newID = snapshot.size;
+            nextID = ++newID;
+        }).then(function () {
+            let uploadTask = config.storageRef.child('/post-images/' + nextID).put(selectedFile);
+            uploadTask.on('state_changed', function (snapshot) {
+                var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED:
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING:
+                        console.log('Upload is running');
+                        break;
+                }
+            }, function (error) {
+            }, function () {
+                uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+                    imageUrl = downloadURL;
+                    config.blogRef.doc(nextID.toString()).set({
+                        detail: bigDescription,
+                        id: nextID,
+                        shortDescription: descriptionInput,
+                        title: titleInput,
+                        imageUrl: imageUrl
+                    }).then(function () {
+                        document.querySelector('.overlay img').classList.remove('animate');
+                        document.querySelector('.overlay img').setAttribute('src', 'images/success.png');
+                        setTimeout(cleanup, 1000);
+                    })
+                });
             });
         });
-    });
+    } else {
+        alert(`Error: Can't leave fields blank`);
+    }
 };
 
 const cleanup = () => {
