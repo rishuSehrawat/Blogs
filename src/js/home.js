@@ -1,8 +1,7 @@
-let config = require('./config.js');
+import config from './config.js';
 
-
-let home = {
-    render: function () {
+const home = {
+    render: () => {
         let homeStr = '';
         config.blogRef.orderBy("id").get().then(function (snapshot) {
             snapshot.forEach(element => {
@@ -14,7 +13,5 @@ let home = {
         })
     }
 }
-
-// module.exports = home;
 
 export default home;

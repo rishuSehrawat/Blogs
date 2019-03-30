@@ -1,7 +1,7 @@
-let config = require('./config.js');
+import config from './config.js';
 
-let admin = {
-  render: function () {
+const admin = {
+  render: () => {
     let container = document.querySelector('.container');
     container.innerHTML = `<div class="inputArea">
         <input class="inputForm" type="text" id="titleInput" placeholder="Enter blog title here">
@@ -16,4 +16,4 @@ let admin = {
   }
 }
 
-module.exports = admin;
+export default admin;

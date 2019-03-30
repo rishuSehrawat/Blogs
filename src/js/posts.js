@@ -1,11 +1,10 @@
-let config = require('./config.js');
+import config from './config.js';
 
-let posts = {
-    render: function () {
+const posts = {
+    render: () => {
         let hashLocation = location.hash;
         let postStr = '';
         config.blogRef.doc(hashLocation.split('/')[1]).get().then(function (doc) {
-            console.log(doc.data());
             if (doc.data()) {
                 postStr += `<img class="blog-header-image" src="${doc.data().imageUrl}">
                 <h1>${doc.data().title}</h1>
@@ -20,4 +19,4 @@ let posts = {
     }
 }
 
-module.exports = posts;
+export default posts;

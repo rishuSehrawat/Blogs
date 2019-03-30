@@ -1,27 +1,21 @@
-let config = require('./config.js');
+import config from './config.js';
 import home from './home.js';
-let posts = require('./posts.js');
-let admin = require('./admin.js');
+import posts from './posts.js';
+import admin from './admin.js';
 
-window.addEventListener('hashchange', render);
-window.addEventListener('load', render);
-
-
-
-function render() {
+const render = () => {
     let hashLocation = location.hash;
     if (!hashLocation || hashLocation === '#/home') {
         home.render();
     } else if (hashLocation === '#/admin') {
         admin.render();
         document.getElementById('saveBlog').addEventListener('click', saveBlog);
-        // document.getElementById('uploadImage').addEventListener('click', upload);
     } else {
         posts.render();
     }
 
 }
-function saveBlog() {
+const saveBlog = () => {
     document.querySelector('.overlay').style.display = 'block';
     let titleInput = document.getElementById('titleInput').value;
     let descriptionInput = document.getElementById('descriptionInput').value;
@@ -48,7 +42,6 @@ function saveBlog() {
         }, function (error) {
         }, function () {
             uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                console.log('File available at', downloadURL);
                 imageUrl = downloadURL;
                 config.blogRef.doc(nextID.toString()).set({
                     detail: bigDescription,
@@ -63,21 +56,18 @@ function saveBlog() {
                 })
             });
         });
-        // config.blogRef.doc(nextID.toString()).set({
-        //     detail: bigDescription,
-        //     id: nextID,
-        //     shortDescription: descriptionInput,
-        //     title: titleInput,
-        //     imageUrl: imageUrl
-        // })
-    })
-}
+    });
+};
 
-function cleanup() {
+const cleanup = () => {
     document.getElementById('titleInput').value = '';
     document.getElementById('descriptionInput').value = '';
     CKEDITOR.instances.bigDescription.setData('');
     document.getElementById('upload').value = '';
     document.querySelector('.overlay').style.display = 'none';
-    console.log('Everything saved successfully')
+    document.querySelector('.overlay img').classList.add('animate');
+    document.querySelector('.overlay img').setAttribute('src', 'images/loader.png');
 }
+
+window.addEventListener('hashchange', render);
+window.addEventListener('load', render);
