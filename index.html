@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Blogs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="images/favicon.png">
+    <link rel="stylesheet" type="text/css" media="screen" href="src/style/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="//cdn.ckeditor.com/4.11.3/standard/ckeditor.js"></script>
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li class="active"><a href="/#/home">Home</a></li>
+            <li class="active right"><a href="/#/admin">Post a blog</a></li>
+        </ul>
+    </header>
+    <div class="container">
+        Loading...
+    </div>
+    <div class="overlay">
+        <div class="img-overlay">
+            <img class="animate" src="images/loader.png">
+        </div>
+    </div>
+    <footer>
+        <div><i class="fas fa-code"></i> with <i class="fas fa-heart"></i> by <a
+                href="https://github.com/rishuSehrawat">Rishabh</a></div>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-storage.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyB7nMrj3ToipHomZRt0tym90kyV93IopJ4",
+            authDomain: "blogapp-8ffdc.firebaseapp.com",
+            databaseURL: "https://blogapp-8ffdc.firebaseio.com",
+            projectId: "blogapp-8ffdc",
+            storageBucket: "blogapp-8ffdc.appspot.com",
+            messagingSenderId: "848690980810"
+        };
+        firebase.initializeApp(config);
+        CKEDITOR.editorConfig = function (config) {
+            config.toolbarGroups = [
+                { name: 'clipboard', groups: ['clipboard', 'undo'] },
+                { name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing'] },
+                { name: 'links', groups: ['links'] },
+                { name: 'insert', groups: ['insert'] },
+                { name: 'forms', groups: ['forms'] },
+                { name: 'tools', groups: ['tools'] },
+                { name: 'document', groups: ['mode', 'document', 'doctools'] },
+                { name: 'others', groups: ['others'] },
+                '/',
+                { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+                { name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'] },
+                { name: 'styles', groups: ['styles'] },
+                { name: 'colors', groups: ['colors'] },
+                { name: 'about', groups: ['about'] }
+            ];
+
+            config.removeButtons = 'PasteFromWord,About';
+        };
+        // CKEDITOR.replace('editor1');
+    </script>
+    <script src="dist/bundle.js"></script>
+</body>
+
+</html>
